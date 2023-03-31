@@ -1,3 +1,5 @@
+
+
 module.exports = {
   entry: "./client/index.jsx",
   output: {
@@ -18,4 +20,7 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.ts', '.js', '.jsx'],
+  }
 };
