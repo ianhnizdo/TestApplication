@@ -1,16 +1,21 @@
 import React from "react";
 import Nav from "./Nav";
 // import "./styles.scss";
+import Footer from "./Footer";
+import Coral from "../public/Coral-Bleaching.jpg";
+import Cumulus from "../public/HurricaneMitch.jpg";
+import Satellite from "../public/Satellite.jpg";
+import SeaLevel from "../public/Sea-Level-Rise-Greenland-ice-loss_2022.jpg";
 
 function Homepage() {
   return (
     <section className="Homepage">
       <Nav />
       <section className="Homepage-Container">
-      <h1 className="Homepage-title">Climate Application</h1>
+        <h1 className="Homepage-title">Climate Application</h1>
         <h2>Climate Change Database</h2>
         <p className="Purpose">
-          ' Anthropogenic climate is an increasing part of everyday life and its
+          Anthropogenic climate is an increasing part of everyday life and its
           dangers to coastal communities, fisheries, plant life, coral reefs,
           and well pretty much every aspect of life honestly. Temperature is a
           big deal and it has ripple effects throughout the planet. There are
@@ -28,7 +33,9 @@ function Homepage() {
           they do. Plus its good practice for me with web development and API
           calls.
         </p>
+        <img alt="A picture of cumulus clouds" src={Cumulus}/>
       </section>
+      <Footer />
     </section>
   );
 }
