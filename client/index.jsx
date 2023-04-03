@@ -7,6 +7,7 @@ import Homepage from "./Homepage";
 import MongoDB from "./MongoDB";
 import SQL from "./SQL";
 import ClimateModels from "./ClimateModels";
+import "./styles.scss";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +24,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/ClimateModels",
-    element: <ClimateModels />
-  }
+    element: <ClimateModels />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

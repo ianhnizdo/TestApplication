@@ -3,23 +3,31 @@ import { Link } from "react-router-dom";
 
 function Nav() {
   return (
-    <section>
-      <nav>
-        <li>
-          <Link to={"/mongodb"}>SQL</Link>
+    <section className="Nav-Bar-Container">
+      <nav className="Nav-Bar">
+        <li className="Nav-Link">
+          <Link to={"/mongodb"}>
+            <button className="Nav-Button">MongoDB</button>
+          </Link>
         </li>
-        <li>
-          <Link to={"/SQL"}>MongoDB</Link>
+        <li className="Nav-Link">
+          <Link to={"/SQL"}>
+            <button className="Nav-Button">SQL</button>
+          </Link>
         </li>
-        <li>
-          <Link to={"/"}>Home</Link>
+        <li className="Nav-Link">
+          <Link to={"/"}>
+            <button className="Nav-Button">Home</button>
+          </Link>
         </li>
-        <li>
-          <Link to={"/ClimateModels"}>Climate Model</Link>
+        <li className="Nav-Link">
+          <Link to={"/ClimateModels"}>
+            <button className="Nav-Button">Climate Model</button>
+          </Link>
         </li>
       </nav>
     </section>
   );
-};
+}
 
 export default Nav;

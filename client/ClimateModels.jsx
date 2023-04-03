@@ -1,7 +1,11 @@
-import React from 'react';
+import React from "react";
 
-function ClimateModels(){
-
+function ClimateModels() {
+  return (
+    <section>
+      <h2>ClimateModels</h2>
+    </section>
+  );
 }
 
 export default ClimateModels;

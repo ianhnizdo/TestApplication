@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const sassLoader = require("sass-loader");
 
 module.exports = {
   entry: path.resolve(__dirname, "./client/index.jsx"),
@@ -12,6 +13,9 @@ module.exports = {
       template: "public/index.html",
     }),
   ],
+  resolveLoader: {
+    modules: ["node_modules"],
+  },
   devServer: {
     static: path.resolve(__dirname, "./public"),
   },
