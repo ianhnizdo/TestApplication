@@ -1,13 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import Nav from "./Nav";
 // import "./styles.scss";
 import Footer from "./Footer";
 import Coral from "../public/Coral-Bleaching.jpg";
-import Cumulus from "../public/HurricaneMitch.jpg";
+import Cumulus from "../public/Cumulus-Clouds.jpg";
 import Satellite from "../public/Satellite.jpg";
 import SeaLevel from "../public/Sea-Level-Rise-Greenland-ice-loss_2022.jpg";
+import Hurricane from "../public/HurricaneMitch.jpg";
 
 function Homepage() {
+  const [slide, setSlide] = useState(0);
+
+  const slides = [
+    { id: 0, title: "Footer", image: Hurricane },
+    { id: 1, title: "Coral", image: Coral },
+    { id: 2, title: "Cumulus", image: Cumulus },
+    { id: 3, title: "Satellite", image: Satellite },
+    { id: 4, title: "SeaLevel", image: SeaLevel },
+  ];
+
+  function plusSlide() {
+    console.log(slide);
+    if (slide === slides.length - 1) {
+      setSlide(0);
+      return;
+    }
+    setSlide(slide + 1);
+    return;
+  }
+
+  function minusSlide() {
+    console.log(slide);
+    if (slide === 0) {
+      setSlide(slides.length - 1);
+      return;
+    }
+    setSlide(slide - 1);
+    return;
+  }
+
+  function currentSlide(num) {
+    // console.log(typeof(num));
+    if (typeof num !== "number") {
+      return;
+    }
+    setSlide(num);
+  }
+
   return (
     <section className="Homepage">
       <Nav />
@@ -33,7 +72,30 @@ function Homepage() {
           they do. Plus its good practice for me with web development and API
           calls.
         </p>
-        <img alt="A picture of cumulus clouds" src={Cumulus}/>
+        <section className="Slides-and-Dots">
+          <section className="slide-show">
+            <a className="SlideRight" onClick={minusSlide}>
+              &#10094;
+            </a>
+            {/* <center> */}
+            <img
+              className="Slide"
+              src={slides[slide].image}
+              alt="Current slide"
+            />
+            {/* </center> */}
+            <a className="SlideLeft" onClick={plusSlide}>
+              &#10095;
+            </a>
+          </section>
+          <aside className="dots">
+            <span className="dot" onClick={() => currentSlide(0)}></span>
+            <span className="dot" onClick={() => currentSlide(1)}></span>
+            <span className="dot" onClick={() => currentSlide(2)}></span>
+            <span className="dot" onClick={() => currentSlide(3)}></span>
+            <span className="dot" onClick={() => currentSlide(4)}></span>
+          </aside>
+        </section>
       </section>
       <Footer />
     </section>
