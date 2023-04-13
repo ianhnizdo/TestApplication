@@ -21,8 +21,8 @@ function Nav() {
           </Link>
         </li>
         <li className="Nav-Link">
-          <Link to={"/ClimateModels"}>
-            <button className="Nav-Button">Climate Model</button>
+          <Link to={"/WeatherForecasts"}>
+            <button className="Nav-Button">Weather Forecast</button>
           </Link>
         </li>
       </nav>

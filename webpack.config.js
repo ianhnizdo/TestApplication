@@ -6,6 +6,7 @@ module.exports = {
   entry: path.resolve(__dirname, "./client/index.jsx"),
   output: {
     path: path.resolve(__dirname, "./build/"),
+    publicPath: "/",
     filename: "bundle.js",
   },
   plugins: [
@@ -19,6 +20,7 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, "./public"),
   },
+  proxy: {},
   module: {
     rules: [
       {

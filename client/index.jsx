@@ -6,7 +6,7 @@ import App from "./App";
 import Homepage from "./Homepage";
 import MongoDB from "./MongoDB";
 import SQL from "./SQL";
-import ClimateModels from "./ClimateModels";
+import WeatherForecasts from "./WeatherForecast";
 import "./styles.scss";
 
 const router = createBrowserRouter([
@@ -23,8 +23,8 @@ const router = createBrowserRouter([
     element: <SQL />,
   },
   {
-    path: "/ClimateModels",
-    element: <ClimateModels />,
+    path: "/WeatherForecasts",
+    element: <WeatherForecasts />,
   },
 ]);
 
