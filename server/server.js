@@ -11,6 +11,8 @@ const app = express(),
 
 app.use(express.static(DIST_DIR));
 
+console.log("test");
+
 app.get("*", (req, res) => {
   res.sendFile(HTML_FILE);
 });
