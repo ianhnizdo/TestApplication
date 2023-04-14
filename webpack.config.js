@@ -1,26 +1,24 @@
 const path = require("path");
+const webpack = require("webpack");
+const nodeExternals = require("webpack-node-externals");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const sassLoader = require("sass-loader");
 
 module.exports = {
-  entry: path.resolve(__dirname, "./client/index.jsx"),
+  entry: {
+    server: "./server/server.js",
+  },
   output: {
-    path: path.resolve(__dirname, "./build/"),
+    path: path.join(__dirname, "dist"),
     publicPath: "/",
     filename: "bundle.js",
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "public/index.html",
-    }),
-  ],
-  resolveLoader: {
-    modules: ["node_modules"],
+  target: "node",
+  node: {
+    __dirname: false, //if you don't put this is, __dirname
+    __filename: false, //and _fliename return blank or /
   },
-  devServer: {
-    static: path.resolve(__dirname, "./public"),
-  },
-  proxy: {},
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
@@ -52,4 +50,17 @@ module.exports = {
   resolve: {
     extensions: ["*", ".js", ".jsx"],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
+      filename: "./public/index.html",
+      excludeChunks: ["server"],
+    }),
+  ],
+  resolveLoader: {
+    modules: ["node_modules"],
+  },
+  // devServer: {
+  //   static: path.resolve(__dirname, "./public"),
+  // },
 };
