@@ -6,12 +6,17 @@ const sassLoader = require("sass-loader");
 
 module.exports = {
   entry: {
-    server: "./server/server.js",
+    server: "./src/server/server.js",
+  },
+  devtool: "inline-source-map",
+  devServer: {
+    static: "./dist",
   },
   output: {
+    filename: "[name].bundle.js",
+    clean: true,
     path: path.join(__dirname, "dist"),
     publicPath: "/",
-    filename: "bundle.js",
   },
   target: "node",
   node: {
@@ -19,10 +24,11 @@ module.exports = {
     __filename: false, //and _fliename return blank or /
   },
   externals: [nodeExternals()],
+  mode: "development",
   module: {
     rules: [
       {
-        test: /\.(js|jsx)?$/,
+        test: /\.(js|jsx)?$/i,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -32,11 +38,11 @@ module.exports = {
         },
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.(sa|sc|c)ss$/i,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.(jpg|jpeg)$/,
+        test: /\.(jpg|jpeg)$/i,
         use: {
           loader: "file-loader",
           options: {
@@ -45,6 +51,10 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.html$/,
+        use: [{ loader: "html-loader" }],
+      },
     ],
   },
   resolve: {
@@ -52,9 +62,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
-      filename: "./public/index.html",
+      template: "./src/public/index.html",
+      filename: "./src/public/index.html",
       excludeChunks: ["server"],
+      title: "Weather Application",
     }),
   ],
   resolveLoader: {
