@@ -8,15 +8,26 @@ module.exports = {
   entry: {
     server: "./src/server/server.js",
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      // template: "./src/public/index.html",
+      // filename: "./src/public/index.html",
+      // excludeChunks: ["server"],
+      title: "Weather Application",
+    }),
+  ],
+  output: {
+    filename: "[name].bundle.js",
+    clean: true,
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+  },
   devtool: "inline-source-map",
   devServer: {
     static: "./dist",
   },
-  output: {
-    filename: "[name].bundle.js",
-    clean: true,
-    path: path.join(__dirname, "dist"),
-    publicPath: "/",
+  optimization: {
+    runtimeChunk: "single",
   },
   target: "node",
   node: {
@@ -60,14 +71,6 @@ module.exports = {
   resolve: {
     extensions: ["*", ".js", ".jsx"],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/public/index.html",
-      filename: "./src/public/index.html",
-      excludeChunks: ["server"],
-      title: "Weather Application",
-    }),
-  ],
   resolveLoader: {
     modules: ["node_modules"],
   },

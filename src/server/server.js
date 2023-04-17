@@ -1,21 +1,31 @@
 // import express from "express";
 const express = require("express");
 const path = require("path");
-
-const cors = require("cors");
-const bodyParser = require("body-parser");
+const webpack = require("webpack");
+const webpackDevMiddleware = require("webpack-dev-middleware");
 
 const app = express(),
   DIST_DIR = __dirname,
   HTML_FILE = path.join(DIST_DIR, "../dist/public/index.html");
+const config = require("../../webpack.config.js");
+const compiler = webpack(config);
 
-app.use(express.static(DIST_DIR));
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
-console.log("test");
+app.use(
+  webpackDevMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+  })
+);
 
-app.get("*", (req, res) => {
-  res.sendFile(HTML_FILE);
-});
+// app.use(express.static(DIST_DIR));
+
+// console.log("test");
+
+// app.get("*", (req, res) => {
+//   res.sendFile(HTML_FILE);
+// });
 
 const PORT = process.env.PORT || 8080;
 
