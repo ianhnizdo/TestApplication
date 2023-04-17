@@ -10,9 +10,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      // template: "./src/public/index.html",
-      // filename: "./src/public/index.html",
-      // excludeChunks: ["server"],
+      template: "./src/public/index.html",
+      filename: "./index.html",
       title: "Weather Application",
     }),
   ],
