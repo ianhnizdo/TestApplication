@@ -4,10 +4,11 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/server/server.js",
-    "build": "webpack",
-    "start": "webpack serve --open",
-    "clean": "rimraf dist node_modules"
+    "dev": "webpack --mode development && node src/server/server.js",
+    "build": "webpack --mode production",
+    "start": "nodemon src/server/server.js",
+    "clean1": "rimraf dist",
+    "clean2": "rimraf node_modules"
   },
   "keywords": [],
   "author": "",
