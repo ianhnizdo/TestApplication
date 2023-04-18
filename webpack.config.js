@@ -3,10 +3,11 @@ const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const sassLoader = require("sass-loader");
+// const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
   entry: {
-    server: "./src/server/server.js",
+    server: path.resolve(__dirname, "src", "public", "index.html"),
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -14,27 +15,30 @@ module.exports = {
       filename: "./index.html",
       title: "Weather Application",
     }),
+    // new NodePolyfillPlugin({
+    //   excludeAliases: ["console"],
+    // }),
   ],
   output: {
-    filename: "[name].bundle.js",
-    clean: true,
     path: path.resolve(__dirname, "dist"),
+    filename: "[name].js",
+    clean: true,
     publicPath: "/",
   },
   devtool: "inline-source-map",
   devServer: {
     static: "./dist",
+    hot: true,
   },
   optimization: {
     runtimeChunk: "single",
   },
-  target: "node",
+  mode: "development",
+  // target: "web",
   node: {
     __dirname: false, //if you don't put this is, __dirname
     __filename: false, //and _fliename return blank or /
   },
-  externals: [nodeExternals()],
-  mode: "development",
   module: {
     rules: [
       {
@@ -42,9 +46,6 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-          },
         },
       },
       {
@@ -68,7 +69,10 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"],
+    extensions: [".*", ".js", ".jsx"],
+    fallback: {
+      fs: false,
+    },
   },
   resolveLoader: {
     modules: ["node_modules"],

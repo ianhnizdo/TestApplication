@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode development && node src/server/server.js",
+    "dev": "nodemon src/server/server.js",
     "build": "webpack --mode production",
     "start": "nodemon src/server/server.js",
     "clean1": "rimraf dist",
@@ -33,6 +33,7 @@
     "file-loader": "^6.2.0",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "node-sass": "^8.0.0",
     "rimraf": "^5.0.0",
     "sass-loader": "^13.2.2",
@@ -42,5 +43,10 @@
     "webpack-dev-middleware": "^6.0.2",
     "webpack-dev-server": "^4.13.1",
     "webpack-node-externals": "^3.0.0"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

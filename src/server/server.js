@@ -28,12 +28,10 @@ app.get("/", (req, res) => {
 //   })
 // );
 
-// app.use(express.static(DIST_DIR));
-
 // console.log("test");
 
-// app.get("*", (req, res) => {
-//   res.sendFile(HTML_FILE);
-// });
+app.get("*", (req, res) => {
+  res.sendFile(HTML_FILE);
+});
 
 app.listen(PORT, () => console.log("Server started on port 3000"));
