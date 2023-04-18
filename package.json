@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server/server.js",
+    "dev": "webpack --mode development && nodemon src/server/server.js",
     "build": "webpack --mode production",
     "start": "nodemon src/server/server.js",
     "clean1": "rimraf dist",

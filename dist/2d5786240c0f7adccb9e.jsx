@@ -21,13 +21,18 @@ var router = createBrowserRouter([{
   path: "/WeatherForecasts",
   element: /*#__PURE__*/React.createElement(WeatherForecasts, null)
 }]);
+// console.log("test");
 
-// ReactDOM.createRoot(document.getElementById("root")).render(
-//   <React.StrictMode>
-//     <RouterProvider router={router} />
-//   </React.StrictMode>
-// );
-var Index = function Index() {
-  return /*#__PURE__*/React.createElement("section", null, "WELCOME TO REACT APP!");
-};
-ReactDOM.render( /*#__PURE__*/React.createElement(Index, null), document.getElementBy);
+// if(module.hot){
+
+// }
+
+ReactDOM.createRoot(document.getElementById("root")).render( /*#__PURE__*/React.createElement(React.StrictMode, null, /*#__PURE__*/React.createElement(RouterProvider, {
+  router: router
+})));
+
+// const Index = () => {
+//   return <section>WELCOME TO REACT APP!</section>;
+// };
+
+// ReactDOM.render(<Index />, document.getElementById("root"));
