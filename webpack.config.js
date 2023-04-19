@@ -17,7 +17,9 @@ module.exports = {
     // hot: "webpack/hot/dev-server.js",
     // client: "webpack-dev-server/client/index.js?hot=true&live-reload=true",
   },
+  //plugins are intended to handle actions on chunks or compilations of bundled modules.
   plugins: [
+    //This generates HTML files based on a tempalate and injects the output JavaScript and CSS files into them.
     new HtmlWebpackPlugin({
       template: "./src/public/index.html",
       filename: "./index.html",
@@ -41,10 +43,14 @@ module.exports = {
     // historyApiFallback: {
     //   index: "/",
     // },
-    historyAPIFallback: true,
+    historyApiFallback: true,
+    compress: true,
+    port: 3000,
     static: "./dist",
     hot: true,
-    client: false,
+    client: {
+      webSocketURL: "http://localhost:3000/",
+    },
   },
   optimization: {
     runtimeChunk: "single",
@@ -54,6 +60,7 @@ module.exports = {
     __dirname: false, //if you don't put this is, __dirname
     __filename: false, //and _fliename return blank or /
   },
+  //Loaders handle actions on a file by file basis. Plugins are responsible for optimizing the output or customizing the build process.
   module: {
     rules: [
       {

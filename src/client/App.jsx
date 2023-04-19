@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 function App() {
-  console.log("testing");
+  console.log('testing');
   return (
     <section>
       <h1>Testbutinappjs!</h1>

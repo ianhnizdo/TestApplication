@@ -4,11 +4,12 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode development && nodemon src/server/server.js",
+    "dev": "webpack-dev-server --mode development --hot & nodemon src/server/server.js",
     "build": "webpack --mode production",
     "start": "nodemon src/server/server.js",
     "clean1": "rimraf dist",
-    "clean2": "rimraf node_modules"
+    "clean2": "rimraf node_modules",
+    "format": "prettier --write \"src/**/*.js\""
   },
   "keywords": [],
   "author": "",
@@ -35,13 +36,14 @@
     "html-webpack-plugin": "^5.5.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "node-sass": "^8.0.0",
+    "prettier": "2.8.7",
     "rimraf": "^5.0.0",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
     "webpack": "^5.79.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-middleware": "^6.0.2",
-    "webpack-dev-server": "^4.13.1",
+    "webpack-dev-server": "^4.13.3",
     "webpack-node-externals": "^3.0.0"
   },
   "browser": {

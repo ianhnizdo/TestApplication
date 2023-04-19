@@ -27,11 +27,6 @@ const router = createBrowserRouter([
     element: <WeatherForecasts />,
   },
 ]);
-// console.log("test");
-
-// if(module.hot){
-
-// }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

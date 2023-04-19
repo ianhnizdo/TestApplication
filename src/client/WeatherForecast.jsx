@@ -1,34 +1,34 @@
-import React, { useState } from "react";
-import Nav from "./Nav";
+import React, { useState } from 'react';
+import Nav from './Nav';
 
 function WeatherForecasts() {
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
 
   async function getGridID(event) {
-    const hiddenInput = document.getElementById("Fetch-GridID");
+    const hiddenInput = document.getElementById('Fetch-GridID');
     event.preventDefault();
     console.log(latitude, longitude);
     try {
       const url = `https://api.weather.gov/points/${latitude},${longitude}`;
-      console.log("test");
+      console.log('test');
       const response = await fetch(url, {
-        method: "GET",
-        mode: "cors",
+        method: 'GET',
+        mode: 'cors',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
       if (!response.ok) {
-        throw new Error("Network response was not OK");
+        throw new Error('Network response was not OK');
       }
       const jsonData = await response.json();
-      console.log(jsonData, "test");
+      console.log(jsonData, 'test');
       // const gridID = jsonData.properties.gridId;
       // hiddenInput.value = gridID;
       // hiddenInput.type = "active";
     } catch (error) {
-      console.log("There has been a problem with your fetch operation:", error);
+      console.log('There has been a problem with your fetch operation:', error);
     }
   }
 
@@ -36,11 +36,12 @@ function WeatherForecasts() {
     <section className="Weather-Forecast">
       <Nav />
       <section className="Weather-Container">
-        <h1 className="Weather-Title">Weather Forecast</h1>
+        <h1 className="Weather-Title">Weather Forecasts</h1>
         <section className="GridID">
+          <h3>Please </h3>
           <p className="GridID-description">
-            In order to find the weather forecast in your area you need the
-            gridID. Enter in your latitude and longitude coordinates to find
+            In order to find the correct weather forecast in your area you need
+            the gridID. Ente in your latitude and longitude coordinates to find
             that out. Bear in mind that this will only work for US based
             coordinates.
           </p>

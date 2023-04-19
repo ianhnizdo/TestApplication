@@ -21,12 +21,6 @@ var router = createBrowserRouter([{
   path: "/WeatherForecasts",
   element: /*#__PURE__*/React.createElement(WeatherForecasts, null)
 }]);
-// console.log("test");
-
-// if(module.hot){
-
-// }
-
 ReactDOM.createRoot(document.getElementById("root")).render( /*#__PURE__*/React.createElement(React.StrictMode, null, /*#__PURE__*/React.createElement(RouterProvider, {
   router: router
 })));
