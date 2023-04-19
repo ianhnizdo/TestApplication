@@ -8,9 +8,9 @@ function WeatherForecasts() {
   async function getGridID(event) {
     const hiddenInput = document.getElementById('Fetch-GridID');
     event.preventDefault();
-    console.log(latitude, longitude);
+    console.log(Number(latitude), longitude);
     try {
-      const url = `https://api.weather.gov/points/${latitude},${longitude}`;
+      const url = `https://api.weather.gov/points/${39.7456},${-97.0892}`;
       console.log('test');
       const response = await fetch(url, {
         method: 'GET',
@@ -54,7 +54,7 @@ function WeatherForecasts() {
                 name="decimal"
                 step=".01"
                 placeholder="Enter your latitude"
-                onChange={(e) => console.log(e.value)}
+                onChange={(e) => setLatitude(Number(e.target.value))}
               />
               Latitude
             </label>
@@ -65,7 +65,7 @@ function WeatherForecasts() {
                 name="decimal"
                 step=".01"
                 placeholder="Enter your latitude"
-                onChange={(e) => console.log(e.value)}
+                onChange={(e) => setLongitude(Number(e.target.value))}
               />
               Longitude
             </label>

@@ -8,9 +8,6 @@ const sassLoader = require("sass-loader");
 // const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
-  // entry: {
-  //   server: path.resolve(__dirname, "src", "public", "index.html"),
-  // },
   mode: "development",
   entry: {
     app: "./src/client/index.jsx",
@@ -99,7 +96,4 @@ module.exports = {
   resolveLoader: {
     modules: ["node_modules"],
   },
-  // devServer: {
-  //   static: path.resolve(__dirname, "./public"),
-  // },
 };
