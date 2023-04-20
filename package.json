@@ -7,6 +7,7 @@
     "dev": "webpack-dev-server --mode development --hot & nodemon src/server/server.js",
     "build": "webpack --mode production",
     "start": "nodemon src/server/server.js",
+    "server": "nodemon src/server/server.js",
     "clean1": "rimraf dist",
     "clean2": "rimraf node_modules",
     "format": "prettier --write \"src/**/*.js\""

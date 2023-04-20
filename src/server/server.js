@@ -27,7 +27,11 @@ app.use(express.static(DIST_DIR));
 
 app.use(cors());
 
-app.get('/*', (req, res) => {
+app.get('/serverRoutes', (req, res) => {
+  res.send('nuts');
+});
+
+app.get('/', (req, res) => {
   res.sendFile(HTML_FILE, function (err) {
     if (err) {
       res.status(500).send(err);

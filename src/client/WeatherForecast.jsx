@@ -10,7 +10,7 @@ function WeatherForecasts() {
     event.preventDefault();
     console.log(Number(latitude), longitude);
     try {
-      const url = `https://api.weather.gov/points/${39.7456},${-97.0892}`;
+      const url = `http://localhost:3000/serverRoutes/points/${39.7456},${-97.0892}`;
       console.log('test');
       const response = await fetch(url, {
         method: 'GET',
@@ -22,8 +22,11 @@ function WeatherForecasts() {
       if (!response.ok) {
         throw new Error('Network response was not OK');
       }
-      const jsonData = await response.json();
-      console.log(jsonData, 'test');
+      // const jsonData = await response.json();
+      // console.log(jsonData, 'test');
+
+      console.log(response);
+
       // const gridID = jsonData.properties.gridId;
       // hiddenInput.value = gridID;
       // hiddenInput.type = "active";
