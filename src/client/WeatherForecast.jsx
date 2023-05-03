@@ -10,26 +10,20 @@ function WeatherForecasts() {
     event.preventDefault();
     console.log(Number(latitude), longitude);
     try {
-      const url = `http://localhost:3000/serverRoutes/points/${39.7456},${-97.0892}`;
-      console.log('test');
+      // const url = `http://localhost:3000/serverRoutes/points/${39.7456},${-97.0892}`;
+      const url = `/api/points/${latitude},${longitude}`;
+      console.log('test the ');
       const response = await fetch(url, {
         method: 'GET',
         mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
       if (!response.ok) {
         throw new Error('Network response was not OK');
       }
-      // const jsonData = await response.json();
-      // console.log(jsonData, 'test');
-
       console.log(response);
+      const data = await response.json();
 
-      // const gridID = jsonData.properties.gridId;
-      // hiddenInput.value = gridID;
-      // hiddenInput.type = "active";
+      console.log(data);
     } catch (error) {
       console.log('There has been a problem with your fetch operation:', error);
     }
