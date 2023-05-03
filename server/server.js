@@ -41,11 +41,12 @@ if (process.env.NODE_ENV === 'production') {
 //     publicPath: config.output.publicPath,
 //   })
 // );
-app.get('/api/points', (req, res) => {
+app.get('/api/points/:lat,:long', (req, res) => {
   console.log('test on backend');
-
-  res.locals.message = 'test';
-  return res.status(200).json(res.locals);
+  const { lat, long } = req.params;
+  console.log(lat, long);
+  res.locals.coordinates = [lat, long];
+  return res.status(200).json(res.locals.coordinates);
 });
 
 // app.get('*', (req, res) => {
