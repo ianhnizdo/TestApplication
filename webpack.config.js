@@ -43,9 +43,6 @@ module.exports = (env, argv) => {
     //Dev server client for web socket transport, hot and live reload logic
     devServer: {
       //Necessary to make react router to work when you reload the page
-      // historyApiFallback: {
-      //   index: "/",
-      // },
       // port: 3000,
       // hot: true,
       // open: true,
@@ -57,13 +54,9 @@ module.exports = (env, argv) => {
       proxy: {
         '/api': {
           target: 'http://localhost:3000',
-          // router: () => 'https://api.weather.gov',
           // pathRewrite: { '^/api': '' },
         },
       },
-      // client: {
-      //   webSocketURL: 'http://localhost:3000/',
-      // },
     },
     optimization: {
       runtimeChunk: 'single',

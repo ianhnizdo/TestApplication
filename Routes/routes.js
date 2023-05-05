@@ -3,12 +3,11 @@ const NWS = require('../controller/NWS Calls.js');
 
 const router = express.Router();
 
-const path = require('path');
-
 // router.get('/api/points/:lat,:long', NWS.getGridEndpoint);
 
-router.get('/api/points', (req, res) => {
-  console.log('router');
+router.get('/api/test', (req, res, next) => {
+  console.log('work dangit');
+  res.send('Response');
 });
 
 module.exports = router;
