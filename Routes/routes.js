@@ -5,9 +5,15 @@ const router = express.Router();
 
 // router.get('/api/points/:lat,:long', NWS.getGridEndpoint);
 
-router.get('/api/test', (req, res, next) => {
+router.use((req, res, next) => {
+  console.log('Time:', Date.now());
+  next();
+});
+
+router.get('/NWS', (req, res, next) => {
   console.log('work dangit');
-  res.send('Response');
+  res.locals.message = 'response';
+  return res.status(200).json(res.locals);
 });
 
 module.exports = router;

@@ -13,11 +13,9 @@ const app = express(),
 let HTML_FILE = path.join(__dirname, '../src/public/index.html');
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//This lets us parse URL-Encoded data. The library used depends on whether extended is set to true or false.
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-
-//This will not work
-// app.use(express.static(__dirname, '../dist'));
 
 //Production
 if (process.env.NODE_ENV === 'production') {
@@ -25,8 +23,17 @@ if (process.env.NODE_ENV === 'production') {
   HTML_FILE = path.join(DIST_DIR, './index.html');
 }
 
-// app.use('/api', (req, res) => res.send('hello'));
-app.use('/api', router);
+// app.use(router);
+
+// app.use('/routes', router, (req, res) => {
+//   return res.status(200).json(res.locals);
+// });
+
+app.use('/routes', router);
+
+app.use('/test', (req, res, next) => {
+  res.send('Response');
+});
 
 app.use((req, res, next) => {
   next(createError(404));

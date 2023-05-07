@@ -11,7 +11,7 @@ function WeatherForecasts() {
     console.log(Number(latitude), longitude);
     try {
       // const url = `http://localhost:3000/serverRoutes/points/${39.7456},${-97.0892}`;
-      const url = `/api/points/${latitude}/${longitude}`;
+      const url = `/api/NWS/points/${latitude}/${longitude}`;
       console.log('test the ');
       const response = await fetch(url, {
         method: 'GET',
