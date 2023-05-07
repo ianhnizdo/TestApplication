@@ -11,10 +11,14 @@ const app = express(),
 
 //Development
 let HTML_FILE = path.join(__dirname, '../src/public/index.html');
+// const urlencodedParser = bodyParser.
 
+//use body-parser to parse JSON bodies
 app.use(express.json());
+
 //This lets us parse URL-Encoded data. The library used depends on whether extended is set to true or false.
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+
 app.use(cors());
 
 //Production
@@ -22,12 +26,6 @@ if (process.env.NODE_ENV === 'production') {
   console.log('production');
   HTML_FILE = path.join(DIST_DIR, './index.html');
 }
-
-// app.use(router);
-
-// app.use('/routes', router, (req, res) => {
-//   return res.status(200).json(res.locals);
-// });
 
 app.use('/routes', router);
 

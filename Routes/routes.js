@@ -10,7 +10,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/NWS', (req, res, next) => {
+router.get('/NWS/:lat,:long', NWS.getGridEndpoint, async (req, res, next) => {
   console.log('work dangit');
   res.locals.message = 'response';
   return res.status(200).json(res.locals);
