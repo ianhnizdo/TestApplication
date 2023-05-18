@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Nav from './Nav';
 
 function WeatherForecasts() {
@@ -11,11 +11,14 @@ function WeatherForecasts() {
     console.log(Number(latitude), longitude);
     try {
       // const url = `http://localhost:3000/serverRoutes/points/${39.7456},${-97.0892}`;
-      const url = `/api/NWS/points/${latitude}/${longitude}`;
-      console.log('test the ');
+      const url = `/api/routes/NWS/${latitude}/${longitude}`;
+      console.log('test the request to the express server');
       const response = await fetch(url, {
         method: 'GET',
         mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
       if (!response.ok) {
         throw new Error('Network response was not OK');
@@ -28,6 +31,19 @@ function WeatherForecasts() {
       console.log('There has been a problem with your fetch operation:', error);
     }
   }
+
+  useEffect(() => {
+    console.log('useEffect Scope');
+    return async function startFetching() {
+      try {
+        const test = await fetch('/api/test').then((res) => res.json());
+        // const parse = test.json();
+        console.log(test);
+      } catch (error) {
+        console.log('error with useEffect in WeatherForecast!', error);
+      }
+    };
+  }, []);
 
   return (
     <section className="Weather-Forecast">

@@ -42,10 +42,6 @@ module.exports = (env, argv) => {
     },
     //Dev server client for web socket transport, hot and live reload logic
     devServer: {
-      //Necessary to make react router to work when you reload the page
-      // port: 3000,
-      // hot: true,
-      // open: true,
       historyApiFallback: true,
       compress: true,
       static: {
@@ -54,7 +50,7 @@ module.exports = (env, argv) => {
       proxy: {
         '/api': {
           target: 'http://localhost:3000',
-          // pathRewrite: { '^/api': '' },
+          pathRewrite: { '^/api': '' },
         },
       },
     },

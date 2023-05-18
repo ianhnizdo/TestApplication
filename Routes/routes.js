@@ -12,7 +12,12 @@ router.use((req, res, next) => {
 
 router.get('/NWS/:lat,:long', NWS.getGridEndpoint, async (req, res, next) => {
   console.log('work dangit');
-  res.locals.message = 'response';
+  return res.status(200).json(res.locals);
+});
+
+router.get('/test', (req, res) => {
+  console.log('backend is connected to frontent');
+  res.locals.text = 'its working';
   return res.status(200).json(res.locals);
 });
 

@@ -21,16 +21,19 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cors());
 
+console.log('test');
+
 //Production
 if (process.env.NODE_ENV === 'production') {
   console.log('production');
   HTML_FILE = path.join(DIST_DIR, './index.html');
 }
 
-app.use('/routes', router);
+app.use('/api/routes', router);
 
 app.use('/test', (req, res, next) => {
-  res.send('Response');
+  console.log('something is hitting');
+  res.json({ response: 'test' });
 });
 
 app.use((req, res, next) => {

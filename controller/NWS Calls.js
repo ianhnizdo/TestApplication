@@ -13,14 +13,15 @@ exports.getGridEndpoint = async (req, res, next) => {
       },
     });
     const result = await request.json();
-    console.log(result);
-    if (result.info.status === 404) {
+    // console.log(result);
+    if (result.status === 404) {
       res.locals.response =
         'invalid coordinates, coordinates must be within US territory!';
       next();
+    } else {
+      res.locals.info = result.properties.gridId;
+      next();
     }
-    res.locals.info = result;
-    next();
   } catch (error) {
     console.log('Error:', error);
   }
