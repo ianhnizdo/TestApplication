@@ -8,9 +8,9 @@ function WeatherForecasts() {
   async function getGridID(event) {
     const hiddenInput = document.getElementById('Fetch-GridID');
     event.preventDefault();
-    console.log(typeof latitude);
+    console.log(latitude, longitude, typeof latitude);
     try {
-      const url = `/api/routes/NWS/${latitude}/${longitude}`;
+      const url = `/api/routes/NWS/${latitude},${longitude}`;
       console.log(url);
       // const url2 = '/api/routes/test';
       console.log(
@@ -35,18 +35,18 @@ function WeatherForecasts() {
     }
   }
 
-  useEffect(() => {
-    console.log('useEffect Scope');
-    return async function startFetching() {
-      try {
-        const test = await fetch('/api/test').then((res) => res.json());
-        // const parse = test.json();
-        console.log(test);
-      } catch (error) {
-        console.log('error with useEffect in WeatherForecast!', error);
-      }
-    };
-  }, []);
+  // useEffect(() => {
+  //   console.log('useEffect Scope');
+  //   return async function startFetching() {
+  //     try {
+  //       const test = await fetch('/api/test').then((res) => res.json());
+  //       // const parse = test.json();
+  //       console.log(test);
+  //     } catch (error) {
+  //       console.log('error with useEffect in WeatherForecast!', error);
+  //     }
+  //   };
+  // }, []);
 
   return (
     <section className="Weather-Forecast">

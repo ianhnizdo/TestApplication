@@ -1,11 +1,11 @@
 const express = require('express');
-const NWS = require('../controller/NWS Calls.js');
+const NWS = require('../controller/NWS-Calls.js');
 
 const router = express.Router();
 
 // router.get('/api/points/:lat,:long', NWS.getGridEndpoint);
 
-router.get('/NWS/:lat,:long', NWS.getGridEndpoint, (req, res, next) => {
+router.get('/NWS/:lat,:long', NWS.getGridEndpoint, (req, res) => {
   console.log('work dangit');
   return res.status(200).json(res.locals);
 });
@@ -16,7 +16,7 @@ router.get('/test', (req, res) => {
   return res.status(200).json(res.locals);
 });
 
-router.use((req, res, next) => {
+router.use((req, res) => {
   console.log('Time:', Date.now());
   res.locals.message = 'yup';
   return res.status(200).json(res.locals);
