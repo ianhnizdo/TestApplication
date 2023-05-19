@@ -8,11 +8,16 @@ function WeatherForecasts() {
   async function getGridID(event) {
     const hiddenInput = document.getElementById('Fetch-GridID');
     event.preventDefault();
-    console.log(Number(latitude), longitude);
+    console.log(typeof latitude);
     try {
-      // const url = `http://localhost:3000/serverRoutes/points/${39.7456},${-97.0892}`;
       const url = `/api/routes/NWS/${latitude}/${longitude}`;
-      console.log('test the request to the express server');
+      console.log(url);
+      // const url2 = '/api/routes/test';
+      console.log(
+        'test the request to the express server,',
+        latitude,
+        longitude
+      );
       const response = await fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -20,13 +25,11 @@ function WeatherForecasts() {
           'Content-Type': 'application/json',
         },
       });
-      if (!response.ok) {
-        throw new Error('Network response was not OK');
-      }
-      console.log(response);
+      // if (!response.ok) {
+      //   throw new Error('Network response was not OK');
+      // }
       const data = await response.json();
-
-      console.log(data);
+      console.log(data, 'success');
     } catch (error) {
       console.log('There has been a problem with your fetch operation:', error);
     }
@@ -67,6 +70,7 @@ function WeatherForecasts() {
                 name="decimal"
                 step=".01"
                 placeholder="Enter your latitude"
+                required
                 onChange={(e) => setLatitude(Number(e.target.value))}
               />
               Latitude
@@ -77,6 +81,7 @@ function WeatherForecasts() {
                 id="Longitude"
                 name="decimal"
                 step=".01"
+                required
                 placeholder="Enter your latitude"
                 onChange={(e) => setLongitude(Number(e.target.value))}
               />

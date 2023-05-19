@@ -28,10 +28,15 @@ if (process.env.NODE_ENV === 'production') {
   console.log('production');
   HTML_FILE = path.join(DIST_DIR, './index.html');
 }
-
 app.use('/api/routes', router);
 
-app.use('/test', (req, res, next) => {
+// This works
+// app.use('/api/routes', router, (req, res) => {
+//   console.log('hi');
+//   return res.status(200).json(res.locals);
+// });
+
+app.use('/api/test', (req, res, next) => {
   console.log('something is hitting');
   res.json({ response: 'test' });
 });
