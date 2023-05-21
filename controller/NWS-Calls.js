@@ -15,15 +15,20 @@ exports.getGridEndpoint = async (req, res, next) => {
     const result = await request.json();
     // console.log(result);
     if (result.status === 404) {
-      -72;
-      res.locals.response = -72;
-      ('invalid coordinates, coordinates must be within US territory!');
+      // -72;
+      res.locals.response =
+        'invalid coordinates, coordinates must be within US territory!';
       next();
     } else {
-      res.locals.info = result.properties.gridId;
+      const { gridX, gridY, gridId } = result.properties;
+      res.locals.data = { gridX, gridY, gridId };
       next();
     }
   } catch (error) {
     console.log('Error:', error);
   }
 };
+
+// exports.getforecast = asyncHandler
+
+// }

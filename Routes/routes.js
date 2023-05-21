@@ -10,6 +10,11 @@ router.get('/NWS/:lat,:long', NWS.getGridEndpoint, (req, res) => {
   return res.status(200).json(res.locals);
 });
 
+router.get('/NWS/:office,:x,:y', NWS.getforecast, (req, res) => {
+  console.log('forecast');
+  return res.status(200).json(res.locals);
+});
+
 router.get('/test', (req, res) => {
   console.log('backend is connected to frontent');
   res.locals.text = 'its working';
