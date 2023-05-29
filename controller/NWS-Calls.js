@@ -1,9 +1,9 @@
-exports.getGridEndpoint = async (req, res, next) => {
-  console.log('request,');
+const asyncHandler = require('express-async-handler');
+
+exports.getGridEndpoint = asyncHandler(async (req, res, next) => {
   const { lat, long } = req.params;
-  console.log(lat, long);
   const url = `https://api.weather.gov/points/${lat},${long}`;
-  console.log('NWS Call,', url);
+  console.log('NWS Call,', typeof lat);
   try {
     const request = await fetch(url, {
       method: 'GET',
@@ -27,8 +27,24 @@ exports.getGridEndpoint = async (req, res, next) => {
   } catch (error) {
     console.log('Error:', error);
   }
-};
+});
 
-// exports.getforecast = asyncHandler
-
-// }
+exports.getForecast = asyncHandler(async (req, res, next) => {
+  const { office, x, y } = req.params;
+  console.log(office, x, y, typeof x);
+  try {
+    const url = `https://api.weather.gov/gridpoints/${office}/${x},${y}/forecast`;
+    const weather = await fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const response = await weather.json();
+    res.locals.forecast = response;
+    next();
+  } catch (error) {
+    console.log('error with the data used,', error);
+  }
+});

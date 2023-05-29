@@ -1,26 +1,25 @@
-import React, { useState } from "react";
-import Nav from "./Nav";
+import React, { useState } from 'react';
+import Nav from './Nav';
 // import "./styles.scss";
-import Footer from "./Footer";
-import Coral from "../public/Coral-Bleaching.jpg";
-import Cumulus from "../public/Cumulus-Clouds.jpg";
-import Satellite from "../public/Satellite.jpg";
-import SeaLevel from "../public/Sea-Level-Rise-Greenland-ice-loss_2022.jpg";
-import Hurricane from "../public/HurricaneMitch.jpg";
+import Footer from './Footer';
+import Coral from '../public/Coral-Bleaching.jpg';
+import Cumulus from '../public/Cumulus-Clouds.jpg';
+import Satellite from '../public/Satellite.jpg';
+import SeaLevel from '../public/Sea-Level-Rise-Greenland-ice-loss_2022.jpg';
+import Hurricane from '../public/HurricaneMitch.jpg';
 
 function Homepage() {
   const [slide, setSlide] = useState(0);
 
   const slides = [
-    { id: 0, title: "Footer", image: Hurricane },
-    { id: 1, title: "Coral", image: Coral },
-    { id: 2, title: "Cumulus", image: Cumulus },
-    { id: 3, title: "Satellite", image: Satellite },
-    { id: 4, title: "SeaLevel", image: SeaLevel },
+    { id: 0, title: 'Footer', image: Hurricane },
+    { id: 1, title: 'Coral', image: Coral },
+    { id: 2, title: 'Cumulus', image: Cumulus },
+    { id: 3, title: 'Satellite', image: Satellite },
+    { id: 4, title: 'SeaLevel', image: SeaLevel },
   ];
 
   function plusSlide() {
-    console.log(slide);
     if (slide === slides.length - 1) {
       setSlide(0);
       return;
@@ -30,7 +29,6 @@ function Homepage() {
   }
 
   function minusSlide() {
-    console.log(slide);
     if (slide === 0) {
       setSlide(slides.length - 1);
       return;
@@ -41,7 +39,7 @@ function Homepage() {
 
   function currentSlide(num) {
     // console.log(typeof(num));
-    if (typeof num !== "number") {
+    if (typeof num !== 'number') {
       return;
     }
     setSlide(num);

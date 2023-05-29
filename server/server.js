@@ -6,6 +6,13 @@ const router = require('../Routes/routes.js');
 
 const PORT = process.env.PORT || 3000;
 
+const db = require('../util/database.js');
+
+//This is an example of how to interact with things on the database.
+// db.execute('SELECT id FROM coordinates')
+//   .then((data) => console.log(data))
+//   .catch((err) => console.log('database error,', err));
+
 const app = express(),
   DIST_DIR = path.join(__dirname, '../dist');
 

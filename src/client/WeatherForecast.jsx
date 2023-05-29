@@ -2,26 +2,25 @@ import React, { useState, useEffect, useRef } from 'react';
 import Nav from './Nav';
 
 function WeatherForecasts() {
-  const [latitude, setLatitude] = useState();
-  const [longitude, setLongitude] = useState();
-  const [xGrid, setXGrid] = useState();
-  const [yGrid, setYGrid] = useState();
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [xGrid, setXGrid] = useState(0);
+  const [yGrid, setYGrid] = useState(0);
   const [gridId, setgridId] = useState('');
-  const [showResults, setResults] = useState(false);
+  const [showGrid, setGrid] = useState(false);
+  const [weather, setWeather] = useState([]);
+  const [showWeather, setShow] = useState(false);
+
+  const gridIdRef = useRef(null);
+  const gridXRef = useRef(null);
+  const gridYRef = useRef(null);
 
   async function getGridID(event) {
     const hiddenInput = document.getElementById('Fetch-GridID');
     event.preventDefault();
-    console.log(latitude, longitude, typeof latitude);
+    console.log(latitude, longitude);
     try {
       const url = `/api/routes/NWS/${latitude},${longitude}`;
-      console.log(url);
-      // const url2 = '/api/routes/test';
-      console.log(
-        'test the request to the express server,',
-        latitude,
-        longitude
-      );
       const response = await fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -35,27 +34,58 @@ function WeatherForecasts() {
       setXGrid(result.data.gridX);
       setYGrid(result.data.gridY);
       setgridId(result.data.gridId);
-      setResults(true);
+      setGrid(true);
     } catch (error) {
       console.log('There has been a problem with your fetch operation:', error);
     }
   }
 
-  async function getWeather(x, y, id) {
-    const url = `/api/routes/NWS/${id},${x},${y}`;
+  async function getWeather(e) {
+    e.preventDefault();
+    const Id = gridIdRef.current.value;
+    const x = gridXRef.current.value;
+    const y = gridYRef.current.value;
+    const url = `/api/routes/NWS/${Id},${x},${y}`;
+    console.log('get Weather');
+    try {
+      const weather = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await weather.json();
+
+      const today = data.forecast.properties.periods;
+      const filter = today.filter(
+        (el, i) => new Date(el.startTime).getDate() == new Date().getDate()
+      );
+      console.log(filter);
+      setWeather(filter);
+    } catch (error) {
+      console.log('error with getWeather,', error);
+    }
   }
-  // useEffect(() => {
-  //   console.log('useEffect Scope');
-  //   return async function startFetching() {
-  //     try {
-  //       const test = await fetch('/api/test').then((res) => res.json());
-  //       // const parse = test.json();
-  //       console.log(test);
-  //     } catch (error) {
-  //       console.log('error with useEffect in WeatherForecast!', error);
-  //     }
-  //   };
-  // }, []);
+
+  const GetDisplay = function (data) {
+    // const location = fetch(`/api/routes/NWS/${latitude}`);
+    return weather.map((cur, i) => {
+      const detail = cur.detailedForecast.toLowerCase().match(/[a-z1-9\s]/g);
+      return (
+        <p key={i}>
+          {cur.name} the temperature is {cur.temperature} degrees{' '}
+          {cur.temperatureUnit} with winds of {cur.windSpeed} in the{' '}
+          {cur.windDirection}. Overall the detailed forecast is {detail}.
+        </p>
+      );
+    });
+  };
+
+  useEffect(() => {
+    console.log('weather changed');
+    GetDisplay(weather);
+  }, [weather]);
 
   return (
     <section className="Weather-Forecast">
@@ -99,7 +129,7 @@ function WeatherForecasts() {
             <button type="submit">Get Grid ID</button>
           </form>
         </section>
-        {showResults && (
+        {showGrid && (
           <div class="gridInfo">
             <p>
               Your gridX is {xGrid}, gridY is {yGrid} and gridId is {gridId}.
@@ -115,25 +145,29 @@ function WeatherForecasts() {
           </div>
         )}
 
-        <form>
+        <form onSubmit={(event) => getWeather(event)}>
           <p>
             Once you know the grid information you can place it inside this
             input request. The request will go to the back end and fetch
             information about the US locations weather for you.
           </p>
           office, put the gridId here
-          <input type="text" placeholder="gridId" />
+          <input type="text" ref={gridIdRef} placeholder="gridId" />
           <br />
           Put the gridX hear
-          <input type="text" placeholder="gridX" />
+          <input type="text" ref={gridXRef} placeholder="gridX" />
           <br />
           Put the gridY here
-          <input type="text" placeholder="gridId" />
+          <input type="text" ref={gridYRef} placeholder="gridId" />
           <br />
           <button type="submit">Get US weather</button>
         </form>
 
         <input type="hidden" id="Fetch-GridID" />
+      </section>
+
+      <section>
+        <GetDisplay />
       </section>
     </section>
   );

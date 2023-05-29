@@ -21,6 +21,8 @@
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
+    "express-async-handler": "^1.2.0",
+    "mysql2": "^3.3.2",
     "nodemon": "^2.0.22",
     "path": "^0.12.7",
     "react": "^18.2.0",
