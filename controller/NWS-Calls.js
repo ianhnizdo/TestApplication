@@ -20,8 +20,26 @@ exports.getGridEndpoint = asyncHandler(async (req, res, next) => {
         'invalid coordinates, coordinates must be within US territory!';
       next();
     } else {
-      const { gridX, gridY, gridId } = result.properties;
-      res.locals.data = { gridX, gridY, gridId };
+      const {
+        gridX,
+        gridY,
+        gridId,
+        relativeLocation: {
+          properties: { city, state },
+        },
+        timeZone,
+      } = result.properties;
+      console.log(gridX, gridY, gridId, city, state, timeZone);
+      res.locals.data = {
+        gridX,
+        gridY,
+        gridId,
+        city,
+        state,
+        timeZone,
+        lat,
+        long,
+      };
       next();
     }
   } catch (error) {

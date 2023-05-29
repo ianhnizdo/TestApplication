@@ -1,5 +1,6 @@
 const express = require('express');
 const NWS = require('../controller/NWS-Calls.js');
+const CoordCont = require('../controller/CoordinateControlller.js');
 
 const router = express.Router();
 
@@ -10,10 +11,15 @@ router.get('/NWS/:office,:x,:y', NWS.getForecast, (req, res) => {
   return res.status(200).json(res.locals);
 });
 
-router.get('/NWS/:lat,:long', NWS.getGridEndpoint, (req, res) => {
-  // console.log('work dangit');
-  return res.status(200).json(res.locals);
-});
+router.get(
+  '/NWS/:lat,:long',
+  NWS.getGridEndpoint,
+  CoordCont.checkExisting,
+  (req, res) => {
+    // console.log('work dangit');
+    return res.status(200).json(res.locals);
+  }
+);
 
 router.get('/test', (req, res) => {
   console.log('backend is connected to frontent');
