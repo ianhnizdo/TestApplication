@@ -27,6 +27,10 @@ router.get('/test', (req, res) => {
   return res.status(200).json(res.locals);
 });
 
+router.use('/error', (req, res) => {
+  res.status(200).json({ error: 'invalid coordinates' });
+});
+
 router.use((req, res) => {
   console.log('Time:', Date.now());
   res.locals.message = 'yup';

@@ -10,6 +10,7 @@ function WeatherForecasts() {
   const [showGrid, setGrid] = useState(false);
   const [weather, setWeather] = useState([]);
   const [showWeather, setShow] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   const gridIdRef = useRef(null);
   const gridXRef = useRef(null);
@@ -19,6 +20,8 @@ function WeatherForecasts() {
     const hiddenInput = document.getElementById('Fetch-GridID');
     event.preventDefault();
     console.log(latitude, longitude);
+    setAlert(false);
+    setGrid(false);
     try {
       const url = `/api/routes/NWS/${latitude},${longitude}`;
       const response = await fetch(url, {
@@ -30,7 +33,11 @@ function WeatherForecasts() {
       });
 
       const result = await response.json();
-      console.log(result, 'success');
+      // console.log(result.error, 'success');
+      if (result.error) {
+        setAlert(true);
+        return;
+      }
       setXGrid(result.data.gridX);
       setYGrid(result.data.gridY);
       setgridId(result.data.gridId);
@@ -129,9 +136,9 @@ function WeatherForecasts() {
             <button type="submit">Get Grid ID</button>
           </form>
         </section>
-        {showGrid && (
+        {showGrid ? (
           <div class="gridInfo">
-            <p>
+            <p className="coordinateInfo">
               Your gridX is {xGrid}, gridY is {yGrid} and gridId is {gridId}.
               Use that information in the weather lookup now or click the button
               here to just instantly look up the info.
@@ -141,6 +148,21 @@ function WeatherForecasts() {
               >
                 Click
               </button>
+            </p>
+          </div>
+        ) : alert ? (
+          <div className="Bad_Coordinates">
+            <p className="coordinateInfo">
+              {' '}
+              You have input coordinates outside the US. They need to be within
+              the US.
+            </p>
+          </div>
+        ) : (
+          <div className="default">
+            <p className="coordinateInfo">
+              You need to put in latitude and longitude coordinates to see
+              information about the grid coordinates and office
             </p>
           </div>
         )}

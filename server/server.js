@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 3000;
 const db = require('../util/database.js');
 
 //This is an example of how to interact with things on the database.
-// db.execute('SELECT id FROM coordinates')
-//   .then((data) => console.log(data))
+// db.execute('SELECT * FROM coordinates')
+//   .then(([rows]) => console.log(rows))
 //   .catch((err) => console.log('database error,', err));
 
 const app = express(),
@@ -27,8 +27,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cors());
-
-console.log('test');
 
 //Production
 if (process.env.NODE_ENV === 'production') {
