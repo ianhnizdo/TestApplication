@@ -47,20 +47,20 @@ async function insertCoord(data) {
 
 async function checkGrid(req, res, next) {
   console.log('checkGrid');
-  const { office, x, y } = req.params;
+  const { gridId, gridX, gridY } = req.params;
   const queryString =
     'SELECT City, State, Timezone FROM coordinates WHERE gridX=? AND gridY=? AND gridId=?';
   try {
-    const query = await pool.query(queryString, [x, y, office]);
+    const query = await pool.query(queryString, [gridX, gridY, gridId]);
     const [rows] = query;
-    console.log(rows);
+    // console.log(rows);
     //If this occurs we need to fetch the coordinates from the weather forecast and automatically input it into the database ourselves. Basically do NWS-Call, grab coordinates, do the regular apply, regular database cache while holding the values we want, and finally return to the frontend with the data.
     if (rows.length === 0) {
       console.log('This data does not exist');
       res.locals.bool = true;
       next();
     } else {
-      res.locals.data = {
+      res.locals.location = {
         city: rows[0].City,
         state: rows[0].State,
         TimeZone: rows[0].Timezone,

@@ -1,13 +1,13 @@
 const express = require('express');
 const NWS = require('../controller/NWS-Calls.js');
-const CoordCont = require('../controller/CoordinateControlller.js');
+const CoordCont = require('../controller/CoordinateController.js');
 
 const router = express.Router();
 
 // router.get('/api/points/:lat,:long', NWS.getGridEndpoint);
 
 router.get(
-  '/NWS/:office,:x,:y',
+  '/NWS/:gridId,:gridX,:gridY',
   CoordCont.checkGrid,
   NWS.getForecast,
   (req, res) => {
@@ -18,8 +18,8 @@ router.get(
 
 router.get(
   '/NWS/:lat,:long',
-  NWS.getGridEndpoint,
   CoordCont.checkExisting,
+  NWS.getGridEndpoint,
   (req, res) => {
     // console.log('work dangit');
     return res.status(200).json(res.locals);
@@ -33,6 +33,7 @@ router.get('/test', (req, res) => {
 });
 
 router.use('/error', (req, res) => {
+  console.log('there has been an error');
   res.status(200).json({ error: 'invalid coordinates' });
 });
 

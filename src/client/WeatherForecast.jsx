@@ -7,6 +7,7 @@ function WeatherForecasts() {
   const [xGrid, setXGrid] = useState(0);
   const [yGrid, setYGrid] = useState(0);
   const [gridId, setgridId] = useState('');
+  const [location, setLocation] = useState({});
   const [showGrid, setGrid] = useState(false);
   const [weather, setWeather] = useState([]);
   const [showWeather, setShow] = useState(false);
@@ -63,7 +64,12 @@ function WeatherForecasts() {
         },
       });
       const data = await weather.json();
+      const { city, state, TimeZone } = data.location;
+      console.log(city, state, TimeZone, data.location);
+      setLocation(data.location);
+      console.log(location);
       if (data.error) {
+        console.log('invalid coord');
         setWeather([false]);
         return;
       }
@@ -79,7 +85,7 @@ function WeatherForecasts() {
   }
 
   const GetDisplay = function (data) {
-    if (!weather[0]) {
+    if (weather[0] === false) {
       return (
         <p className="GetDisplayText">
           You have used invalid coordinates in your gridX, gridY, and/or office.
@@ -88,16 +94,25 @@ function WeatherForecasts() {
         </p>
       );
     }
-    return weather.map((cur, i) => {
-      const detail = cur.detailedForecast.toLowerCase().match(/[a-z1-9\s]/g);
-      return (
-        <p className="GetDisplayText" key={i}>
-          {cur.name} the temperature is {cur.temperature} degrees{' '}
-          {cur.temperatureUnit} with winds of {cur.windSpeed} in the{' '}
-          {cur.windDirection}. Overall the detailed forecast is {detail}.
-        </p>
-      );
-    });
+    return (
+      <p>
+        {' '}
+        This is the weather at {location.city} in {location.state} within the{' '}
+        {location.TimeZone} timezone.
+        {weather.map((cur, i) => {
+          const detail = cur.detailedForecast
+            .toLowerCase()
+            .match(/[a-z1-9\s]/g);
+          return (
+            <p className="GetDisplayText" key={i}>
+              {cur.name} the temperature is {cur.temperature} degrees{' '}
+              {cur.temperatureUnit} with winds of {cur.windSpeed} in the{' '}
+              {cur.windDirection}. Overall the detailed forecast is {detail}.
+            </p>
+          );
+        })}
+      </p>
+    );
   };
 
   useEffect(() => {

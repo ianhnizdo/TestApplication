@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler');
+const CoordCont = require('./CoordinateController');
 
 exports.getGridEndpoint = asyncHandler(async (req, res, next) => {
   const { lat, long } = req.params;
@@ -45,9 +46,9 @@ exports.getGridEndpoint = asyncHandler(async (req, res, next) => {
 });
 
 exports.getForecast = asyncHandler(async (req, res, next) => {
-  const { office, x, y } = req.params;
+  const { gridId, gridX, gridY } = req.params;
   try {
-    const url = `https://api.weather.gov/gridpoints/${office}/${x},${y}/forecast`;
+    const url = `https://api.weather.gov/gridpoints/${gridId}/${gridX},${gridY}/forecast`;
     const weather = await fetch(url, {
       method: 'GET',
       mode: 'cors',
@@ -58,16 +59,31 @@ exports.getForecast = asyncHandler(async (req, res, next) => {
     const response = await weather.json();
     res.locals.forecast = response;
     const coordinates = {
-      latitude: Math.round(response.geometry.coordinates[0][0][0]),
-      longitude: Math.round(response.geometry.coordinates[0][0][1]),
+      lat: Math.round(response.geometry.coordinates[0][0][1]),
+      long: Math.round(response.geometry.coordinates[0][0][0]),
     };
     if (res.locals.bool) {
+      console.log(gridX, gridY, gridId, coordinates.lat, coordinates.long);
       try {
         const loc = await locationFetch(coordinates);
+        const { city, state, timeZone } = loc;
+        const { lat, long } = coordinates;
+        res.locals.location = { city, state, timeZone };
         console.log('the data has not been cached yet', loc);
+        const input = {
+          gridX,
+          gridY,
+          gridId,
+          city,
+          state,
+          timeZone,
+          lat,
+          long,
+        };
+        CoordCont.insertCoord(input);
       } catch (error) {
         console.log('Error with locationFetch:', error.message);
-        res.redirect('/api/routes/error');
+        res.locals.error = 'invalid coordinates';
       }
     }
     next();
@@ -76,9 +92,9 @@ exports.getForecast = asyncHandler(async (req, res, next) => {
   }
 });
 
-async function locationFetch(coordinates) {
-  const url = `https://api.weather.gov/points/${coordinates.latitude},${coordinates.longitude}`;
-
+async function locationFetch(coord) {
+  const url = `https://api.weather.gov/points/${coord.lat},${coord.long}`;
+  console.log(url);
   const request = await fetch(url, {
     mode: 'cors',
     method: 'GET',
@@ -87,13 +103,17 @@ async function locationFetch(coordinates) {
     },
   });
   const data = await request.json();
-  console.log('locationFetch,', data);
+  // console.log('locationFetch,', data);
   if (data.status === 404) {
     throw new Error('invalid coordinates, coordinates must be inside the USA!');
   }
+  // console.log(
+  //   'this should be the info we need',
+  //   data.properties.relativeLocation
+  // );
   return {
-    city: data.properties.properties.city,
-    state: data.properties.properties.state,
-    timeZone: data.properties.properties.timeZone,
+    city: data.properties.relativeLocation.properties.city,
+    state: data.properties.relativeLocation.properties.state,
+    timeZone: data.properties.timeZone,
   };
 }
