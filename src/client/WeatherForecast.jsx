@@ -63,7 +63,10 @@ function WeatherForecasts() {
         },
       });
       const data = await weather.json();
-
+      if (data.error) {
+        setWeather([false]);
+        return;
+      }
       const today = data.forecast.properties.periods;
       const filter = today.filter(
         (el, i) => new Date(el.startTime).getDate() == new Date().getDate()
@@ -76,11 +79,19 @@ function WeatherForecasts() {
   }
 
   const GetDisplay = function (data) {
-    // const location = fetch(`/api/routes/NWS/${latitude}`);
+    if (!weather[0]) {
+      return (
+        <p className="GetDisplayText">
+          You have used invalid coordinates in your gridX, gridY, and/or office.
+          Try again or use the Find GridId tool with latitude and longitude to
+          find your numbers if your not sure.
+        </p>
+      );
+    }
     return weather.map((cur, i) => {
       const detail = cur.detailedForecast.toLowerCase().match(/[a-z1-9\s]/g);
       return (
-        <p key={i}>
+        <p className="GetDisplayText" key={i}>
           {cur.name} the temperature is {cur.temperature} degrees{' '}
           {cur.temperatureUnit} with winds of {cur.windSpeed} in the{' '}
           {cur.windDirection}. Overall the detailed forecast is {detail}.

@@ -6,10 +6,15 @@ const router = express.Router();
 
 // router.get('/api/points/:lat,:long', NWS.getGridEndpoint);
 
-router.get('/NWS/:office,:x,:y', NWS.getForecast, (req, res) => {
-  // console.log('forecast');
-  return res.status(200).json(res.locals);
-});
+router.get(
+  '/NWS/:office,:x,:y',
+  CoordCont.checkGrid,
+  NWS.getForecast,
+  (req, res) => {
+    // console.log('forecast');
+    return res.status(200).json(res.locals);
+  }
+);
 
 router.get(
   '/NWS/:lat,:long',
