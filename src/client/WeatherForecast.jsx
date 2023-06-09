@@ -1,28 +1,94 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Nav from './Nav';
 
+const usePersistentState = (key, defaultValue) => {
+  const [state, setState] = useState(() => {
+    const storedValue = localStorage.getItem(key);
+    console.log('storedValue', storedValue, 'defaultValue', defaultValue);
+    return storedValue ? JSON.parse(storedValue) : defaultValue;
+  });
+  console.log('this is persistentState', key, state);
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [key, state]);
+
+  return [state, setState];
+};
+
 function WeatherForecasts() {
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-  const [xGrid, setXGrid] = useState(0);
-  const [yGrid, setYGrid] = useState(0);
-  const [gridId, setgridId] = useState('');
+  const [latitude, setLatitude] = usePersistentState('latitude', '');
+  const [longitude, setLongitude] = usePersistentState('longitude', '');
+  const [xGrid, setXGrid] = usePersistentState('xGrid', '');
+  const [yGrid, setYGrid] = usePersistentState('yGrid', '');
+  const [gridId, setgridId] = usePersistentState('gridId', '');
   const [location, setLocation] = useState({});
   const [showGrid, setGrid] = useState(false);
   const [weather, setWeather] = useState([]);
-  const [showWeather, setShow] = useState(false);
-  const [alert, setAlert] = useState(false);
+  // const [showWeather, setShow] = useState(false);
+  const [alert, setAlert] = usePersistentState('alert', false);
+
+  // const inputValue = latitude !== null ? latitude : '';
 
   const gridIdRef = useRef(null);
   const gridXRef = useRef(null);
   const gridYRef = useRef(null);
 
+  const handleInputChange = (key, value, setValue) => {
+    if (value === '' || value === '0') {
+      setValue(value === '' ? '' : 0);
+    } else {
+      const parsedValue = parseFloat(value);
+      if (!isNaN(parsedValue)) {
+        setValue(Number(value));
+      }
+    }
+  };
+
+  function storageAvailable(type) {
+    let storage;
+    try {
+      storage = window[type];
+      const x = '__storage_test__';
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    } catch (e) {
+      return (
+        e instanceof DOMException &&
+        // everything except Firefox
+        (e.code === 22 ||
+          // Firefox
+          e.code === 1014 ||
+          // test name field too, because code might not be present
+          // everything except Firefox
+          e.name === 'QuotaExceededError' ||
+          // Firefox
+          e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+        // acknowledge QuotaExceededError only if there's something already stored
+        storage &&
+        storage.length !== 0
+      );
+    }
+  }
+
+  if (storageAvailable('localStorage')) {
+    console.log('local Storage is availalbe');
+    console.log(latitude);
+  } else {
+    console.log('local storage is not available or something went wrong');
+  }
+
+  function populateStorage() {
+    localStorage.setItem('latitude', latitude);
+    localStorage.setItem('longitude', longitude);
+    // localSorate.set
+  }
+
   async function getGridID(event) {
-    const hiddenInput = document.getElementById('Fetch-GridID');
     event.preventDefault();
     console.log(latitude, longitude);
-    setAlert(false);
-    setGrid(false);
+    handleInputChange('showGrid', false, setGrid);
+    handleInputChange('alert', false, setAlert);
     try {
       const url = `/api/routes/NWS/${latitude},${longitude}`;
       const response = await fetch(url, {
@@ -34,7 +100,7 @@ function WeatherForecasts() {
       });
 
       const result = await response.json();
-      // console.log(result.error, 'success');
+      console.log(result.error, 'success');
       if (result.error) {
         setAlert(true);
         return;
@@ -142,8 +208,11 @@ function WeatherForecasts() {
                 name="decimal"
                 step=".01"
                 placeholder="Enter your latitude"
+                value={latitude}
                 required
-                onChange={(e) => setLatitude(Number(e.target.value))}
+                onChange={(e) =>
+                  handleInputChange('latitude', e.target.value, setLatitude)
+                }
               />
               Latitude
             </label>
@@ -155,7 +224,10 @@ function WeatherForecasts() {
                 step=".01"
                 required
                 placeholder="Enter your longitude"
-                onChange={(e) => setLongitude(Number(e.target.value))}
+                value={longitude}
+                onChange={(e) =>
+                  handleInputChange('longitude', e.target.value, setLongitude)
+                }
               />
               Longitude
             </label>
@@ -210,8 +282,6 @@ function WeatherForecasts() {
           <br />
           <button type="submit">Get US weather</button>
         </form>
-
-        <input type="hidden" id="Fetch-GridID" />
       </section>
 
       <section>

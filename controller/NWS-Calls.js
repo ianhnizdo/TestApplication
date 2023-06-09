@@ -3,7 +3,9 @@ const CoordCont = require('./CoordinateController');
 
 exports.getGridEndpoint = asyncHandler(async (req, res, next) => {
   const { lat, long } = req.params;
-  const url = `https://api.weather.gov/points/${lat},${long}`;
+  const url = `https://api.weather.gov/points/${Math.round(lat)},${Math.round(
+    long
+  )}`;
   console.log('NWS Call,', lat, long);
   try {
     const request = await fetch(url, {
@@ -38,6 +40,7 @@ exports.getGridEndpoint = asyncHandler(async (req, res, next) => {
         lat,
         long,
       };
+      console.log('go to insert');
       next();
     }
   } catch (error) {

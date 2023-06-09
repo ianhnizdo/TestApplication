@@ -20,11 +20,17 @@ router.get(
   '/NWS/:lat,:long',
   CoordCont.checkExisting,
   NWS.getGridEndpoint,
+  CoordCont.insertCoord,
   (req, res) => {
     // console.log('work dangit');
     return res.status(200).json(res.locals);
   }
 );
+
+router.get('/present', (req, res) => {
+  console.log('data already in database', res.locals.data);
+  return res.status(200).json(res.locals);
+});
 
 router.get('/test', (req, res) => {
   console.log('backend is connected to frontent');
@@ -37,12 +43,4 @@ router.use('/error', (req, res) => {
   res.status(200).json({ error: 'invalid coordinates' });
 });
 
-router.use((req, res) => {
-  console.log('Time:', Date.now());
-  res.locals.message = 'yup';
-  return res.status(200).json(res.locals);
-});
-
 module.exports = router;
-
-// 40.543946, -76.834780
